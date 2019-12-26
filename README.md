@@ -2,7 +2,7 @@
 
 Script to take currently playing track information from your mediaplayer by using dbus.
 This script works for me with Clementine and Spotify. It requires the python3 dbus and mpris2 modules to be installed.
-The coverimage is either downloaded from for example Spotify or copied from Clementine which puts the album art in a file named "/tmp/clementine-art-xxxxxx.jpg"
+The cover image is either downloaded from for example Spotify or copied from Clementine which puts the album art in a file named "/tmp/clementine-art-xxxxxx.jpg"
 
 It takes the following command line arguments:
 
