@@ -6,7 +6,7 @@
 # Tested on Ubuntu with Clemetine and Spotify
 # Depends on python3 dbus and mpris2 for Python3
 #  
-#  Copyright 2019 Hans Combee (hanscombee@gmail.com)
+#  Copyright 2019 Hans Combee
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@
 #
 # Version history
 # 0.5 Initial upload
+# 0.6 fixed cover issue with clementine and missing artist (replaced by album artist) 
 
 import dbus
 import os
@@ -67,11 +68,16 @@ def main(args):
 				elif 'file' in arturl:
 					img_name = arturl[7:]
 					exists = os.path.isfile(img_name)
-					same = filecmp.cmp(img_name,cover_file,shallow=True)
-					if exists and not same:
+					cover_exists = os.path.isfile(cover_file)
+					if exists and not cover_exists:
+						shutil.copyfile(img_name,cover_file)
+					elif exists and cover_exists and not filecmp.cmp(img_name,cover_file,shallow=True):
 						shutil.copyfile(img_name,cover_file)
 		if '-a' in args:
-			print(artist)
+			if not artist:
+				print(albumArtist)
+			else:
+				print(artist)
 		elif '-t' in args:
 			print(title)
 		elif '-A' in args:
