@@ -27,5 +27,5 @@ ${execi 5 python3 /home/hans/conky/scripts/ConkyMusic.py -t}${font}
 ${execi 5 python3 /home/hans/conky/scripts/ConkyMusic.py -A}${font}
 
 
-Hans Combee
+
 
