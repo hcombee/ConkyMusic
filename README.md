@@ -19,8 +19,11 @@ It takes the following command line arguments:
 Conky example:
 
 ${image /tmp/cover.jpg -p 0,0 -s 220x220 -n} 
+
 ${execi 5 python3 /home/hans/conky/scripts/ConkyMusic.py -a}
+
 ${execi 5 python3 /home/hans/conky/scripts/ConkyMusic.py -t}${font}
+
 ${execi 5 python3 /home/hans/conky/scripts/ConkyMusic.py -A}${font}
 
 
