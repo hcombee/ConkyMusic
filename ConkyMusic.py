@@ -25,7 +25,8 @@
 #
 # Version history
 # 0.5 Initial upload
-# 0.6 fixed cover issue with clementine and missing artist (replaced by album artist) 
+# 0.6 fixed cover issue with clementine and missing artist (replaced by album artist)
+# 0.7 copy a custom image when playing a webstream 
 
 import dbus
 import os
