@@ -34,7 +34,10 @@ import urllib.request
 import filecmp
 from mpris2 import Player, get_players_uri
 
+# Where does your conky script expect an cover art image?
 cover_file = '/tmp/cover.jpg'
+# Replacement image if there is no cover art image available.
+empty_cover = '/home/hans/conky/scripts/radio.jpg'
 
 def main(args):
 	artist = ''
@@ -42,6 +45,7 @@ def main(args):
 	album = ''
 	img_name = ''
 	arturl = ''
+	albumArtist = ''
 
 	try:
 		player_uri = next(get_players_uri())
@@ -73,6 +77,11 @@ def main(args):
 						shutil.copyfile(img_name,cover_file)
 					elif exists and cover_exists and not filecmp.cmp(img_name,cover_file,shallow=True):
 						shutil.copyfile(img_name,cover_file)
+			elif  'xesam:url' in x:
+				url = player.Metadata[x]
+				if 'http' in url:
+						if not 'spotify' in url:
+							shutil.copyfile(empty_cover,cover_file)
 		if '-a' in args:
 			if not artist:
 				print(albumArtist)
@@ -84,11 +93,10 @@ def main(args):
 			print(album)
 		elif '-c' in args:
 			print(img_name)	
-			print("(Is copied to",cover_file,"on each run if they are not equal)")
 		elif '-r' in args:
 			print(albumArtist)
 		else:
-			print("No arguments given")
+			print("None or invalid options given")
 			print(" ")
 			print("-a	Song Artist")
 			print("-t	Track title")
