@@ -5,7 +5,7 @@
 # Retrieves playing media information from dBus
 # Tested on Ubuntu with Clemetine and Spotify
 # Depends on python3 dbus and mpris2 for Python3
-#  
+#
 #  Copyright 2019 Hans Combee
 #
 #  This program is free software; you can redistribute it and/or modify
@@ -26,7 +26,7 @@
 # Version history
 # 0.5 Initial upload
 # 0.6 fixed cover issue with clementine and missing artist (replaced by album artist)
-# 0.7 copy a custom image when playing a webstream 
+# 0.7 fixed Spotify invalid artUrl location
 
 import dbus
 import os
@@ -64,11 +64,14 @@ def main(args):
 				album = player.Metadata[x]
 			elif 'artUrl' in x:
 				arturl = player.Metadata[x]
-				if 'http' in arturl:
-					img_name = "/tmp/"+arturl.rsplit('/',1)[1]+".jpg"
+				if 'spotify' in arturl:
+					img_id = arturl.rsplit('/',1)[1]
+#					print(img_id)
+					spotify_album_art = "https://i.scdn.co/image/"+img_id
+					img_name = "/tmp/"+img_id+".jpg"
 					exists = os.path.isfile(img_name)
 					if not exists:
-						urllib.request.urlretrieve(arturl,img_name)
+						urllib.request.urlretrieve(spotify_album_art,img_name)
 						shutil.copyfile(img_name,cover_file)
 				elif 'file' in arturl:
 					img_name = arturl[7:]
@@ -93,7 +96,7 @@ def main(args):
 		elif '-A' in args:
 			print(album)
 		elif '-c' in args:
-			print(img_name)	
+			print(img_name)
 		elif '-r' in args:
 			print(albumArtist)
 		else:
@@ -104,7 +107,7 @@ def main(args):
 			print("-A	Album")
 			print("-c	Cover file location")
 			print("-r	Album Artist")
-			
+
 	except StopIteration:
 #		print("no player")
 		exists = os.path.isfile(cover_file)
